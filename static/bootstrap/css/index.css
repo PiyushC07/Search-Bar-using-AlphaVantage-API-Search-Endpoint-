@@ -1,0 +1,4 @@
+.ui.search>.results .result .price {
+    float: right;
+    color: blue!important;
+}

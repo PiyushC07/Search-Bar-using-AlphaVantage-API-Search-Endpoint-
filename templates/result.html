@@ -1,0 +1,118 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ result }}</title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href= "{{ url_for('static',filename='bootstrap/css/index.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  </head>
+  <body>
+    <div class="col-lg-6 m-4 ml-3">
+    <h4 class="text-dark mb-0"><span id="name">.</span>({{ result }})</h4>
+
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-xl-2 mb-4 ml-4">
+        <div class="card shadow border-left-primary py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Price</span></div>
+                        <div class="text-dark font-weight-bold h5 mb-0"><span id="Price"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-2 mb-4">
+        <div class="card shadow border-left-success py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Open</span></div>
+                        <div class="text-dark font-weight-bold h5 mb-0"><span id="open"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-2 mb-4">
+        <div class="card shadow border-left-info py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>High</span></div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span id="High"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-2 mb-4">
+        <div class="card shadow border-left-warning py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Low</span></div>
+                        <div class="text-dark font-weight-bold h5 mb-0"><span id="Low"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="col-lg-6 mb-4 ml-4">
+          <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                  <h6 class="text-primary font-weight-bold m-0">Analysis</h6>
+              </div>
+              <div class="card-body">
+                  <h4 class="small font-weight-bold">Sentimental Analysis<span class="float-right">20%</span></h4>
+                  <div class="progress mb-4">
+                      <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Technical Analysis<span class="float-right">40%</span></h4>
+                  <div class="progress mb-4">
+                      <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Fundamental Analysis<span class="float-right">60%</span></h4>
+                  <div class="progress mb-4">
+                      <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span></div>
+                  </div>
+              </div>
+          </div>
+    <script>
+            const url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={{ result }}&apikey=6A7P8Q8I79OU9COE'
+   
+            async function getQuote(){
+                const response = await fetch(url);
+                const data = await response.json();
+
+                document.getElementById('open').textContent = data["Global Quote"]["02. open"];
+                document.getElementById('High').textContent = data["Global Quote"]["03. high"];
+                document.getElementById('Low').textContent = data["Global Quote"]["04. low"];
+                document.getElementById('Price').textContent = data["Global Quote"]["05. price"];
+                // document.getElementById('Volume').textContent = data["Global Quote"]["06. volume"];
+                // console.log(data["Global Quote"]["02. open"]);
+            }
+            getQuote();
+ const data_url = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={{result}}&apikey=6A7P8Q8I79OU9COE'
+                async function getdata(){
+                const response = await fetch(data_url);
+                const data_two = await response.json();
+
+                document.getElementById('name').textContent = data_two.bestMatches[0]["2. name"];
+                console.log(data_two.bestMatches[0]["2. name"])
+                }
+                getdata();
+    </script>
+  </body>
+</html>
